@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -14,6 +15,8 @@ namespace ConsoleApp.Sort {
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		private static void Swap(int[] _arr, int a, int b) {
+			if (a == b) 
+				return;
 			_arr[a] = _arr[a] ^ _arr[b];
 			_arr[b] = _arr[a] ^ _arr[b];
 			_arr[a] = _arr[a] ^ _arr[b];
@@ -33,14 +36,14 @@ namespace ConsoleApp.Sort {
 				return;
 			}
 			for (int i = 0; i < _arr.Length; i++) {
-				int minIndex = i;
+				int targetIndex = i;
 				for (int j = i + 1	; j < _arr.Length; j++) {
-					bool swap = _accending ? (_arr[minIndex] < _arr[j]) : (_arr[minIndex] > _arr[j]);
+					bool swap = _accending ? (_arr[targetIndex] > _arr[j]) : (_arr[targetIndex] < _arr[j]);
 					if (swap) {
-						minIndex = j;
+						targetIndex = j;
 					}
 				}
-				Swap(_arr, i, minIndex);
+				Swap(_arr, i, targetIndex);
 			}
 		}
 
@@ -53,12 +56,31 @@ namespace ConsoleApp.Sort {
 			if (_arr == null || _arr.Length < 2) {
 				return;
 			}
-			for (int i = _arr.Length - 1; i > 0; i--) {
+			for (int i = _arr.Length - 1; i >= 0; i--) {
 				for (int j = 0; j < i; j++) {
 					bool swap = _accending ? (_arr[j] > _arr[j + 1]) : (_arr[j] < _arr[j + 1]);
 					if (swap) {
 						Swap(_arr, j, j + 1);
 					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// 插入排序
+		/// </summary>
+		/// <param name="_arr"></param>
+		/// <param name="_accending"></param>
+		public static void InsertSort(int[] _arr, bool _accending = true) {
+			for (int i = 1; i < _arr.Length; i++) {
+				int insertPos = i;
+				for (int j = i - 1; j >= 0; j--) {
+					bool accend = _arr[j] > _arr[j + 1];
+					bool swap = _accending ? accend : !accend;
+					if (swap)
+						Swap(_arr, j, j + 1);
+					else
+						break;
 				}
 			}
 		}
@@ -112,6 +134,45 @@ namespace ConsoleApp.Sort {
 			int a, b;
 			GetOddTimesNumFromArrayThereAreTwo(_arr, out a, out b);
 			Console.WriteLine("one = {0}, two = {1}", a.ToString(), b.ToString());
+		}
+
+		private static bool FindNumInSortedArrayWithBisection(int[] _arr, int _target, int _left, int _right) {
+			int middle = (_right + _left) / 2;
+			int middleValue = _arr[middle];
+			Console.Write(middleValue + ",");
+			// 结束条件
+			if (_right == _left && middleValue != _target)
+				return false;
+			// 判断条件
+			if (middleValue == _target)
+				return true;
+			else if (middleValue < _target)
+				return FindNumInSortedArrayWithBisection(_arr, _target, middle + 1, _right);
+			else
+				return FindNumInSortedArrayWithBisection(_arr, _target, _left, middle);
+		}
+
+		public static bool FindNumInSortedArrayWithBisection(int[] _arr, int _target) {
+			return FindNumInSortedArrayWithBisection(_arr, _target, 0,  _arr.Length - 1);
+		}
+
+		private static int FindLeftMostIndexBiggerThanNumInSortedArrayWithBisection(int[] _arr, int _comparison, int _left, int _right) {
+			int middle = (_right + _left) / 2;
+			int middleValue = _arr[middle];
+			Console.Write(middleValue + ",");
+			// 结束条件
+			if (_left == _right) {
+				return middle;
+			}
+			// 判断条件
+			if (middleValue > _comparison)
+				return FindLeftMostIndexBiggerThanNumInSortedArrayWithBisection(_arr, _comparison, _left, middle);
+			else
+				return FindLeftMostIndexBiggerThanNumInSortedArrayWithBisection(_arr, _comparison, middle + 1, _right);
+		}
+
+		public static int FindLeftMostIndexBiggerThanNumInSortedArrayWithBisection(int[] _arr, int _comparison) {
+			return FindLeftMostIndexBiggerThanNumInSortedArrayWithBisection(_arr, _comparison, 0, _arr.Length);
 		}
 	}
 }
