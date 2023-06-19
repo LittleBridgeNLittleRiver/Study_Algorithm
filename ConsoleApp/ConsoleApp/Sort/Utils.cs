@@ -22,6 +22,11 @@ namespace ConsoleApp.Sort {
 			_arr[a] = _arr[a] ^ _arr[b];
 		}
 
+		/// <summary>
+		/// 获取位运算中最右侧的一
+		/// </summary>
+		/// <param name="num"></param>
+		/// <returns></returns>
 		private static int GetTheRightMostOne(int num) {
 			return num & (~num + 1);	// or (num & -num)
 		}
