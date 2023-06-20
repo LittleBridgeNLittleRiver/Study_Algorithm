@@ -10,7 +10,7 @@ namespace ConsoleApp.Utils {
 			if (_L == _R) {
 				return _arr[_L];
 			}
-			int mid = _L + ((_R - _L) >> 2);
+			int mid = _L + ((_R - _L) >> 1);	// 【重点】
 			int leftMax = GetMax(_arr, _L, mid);
 			int rightMax = GetMax(_arr, mid + 1, _R);
 			return Math.Max(leftMax, rightMax);
@@ -28,3 +28,11 @@ namespace ConsoleApp.Utils {
 		}
 	}
 }
+// 【重点】Master公式
+// 【要素】子问题规模要一致。eg：可以是T(2N/3)&T(2N/3)，但不可以是T(N/3)&T(2N/3)
+// 【公式】T(N) = a * T(N/b) + O(N^d)
+// 【判断条件】C = log(b, a); D = d
+// ①C>D => 复杂度为O(N^log(b,a));
+// ②C=D => 复杂度为O(N^d * logN);
+// ③C<D => 复杂度为O(N^d)
+// 【判断条件】

@@ -9,85 +9,12 @@ using System.Threading.Tasks;
 namespace ConsoleApp.Sort {
 	public static class Utils {
 		/// <summary>
-		/// 交换位置
-		/// </summary>
-		/// <param name="_arr"></param>
-		/// <param name="a"></param>
-		/// <param name="b"></param>
-		private static void Swap(int[] _arr, int a, int b) {
-			if (a == b) 
-				return;
-			_arr[a] = _arr[a] ^ _arr[b];
-			_arr[b] = _arr[a] ^ _arr[b];
-			_arr[a] = _arr[a] ^ _arr[b];
-		}
-
-		/// <summary>
 		/// 获取位运算中最右侧的一
 		/// </summary>
 		/// <param name="num"></param>
 		/// <returns></returns>
 		private static int GetTheRightMostOne(int num) {
 			return num & (~num + 1);	// or (num & -num)
-		}
-
-		/// <summary>
-		/// 选择排序
-		/// </summary>
-		/// <param name="_arr"></param>
-		/// <param name="_accending">是否为升序</param>
-		public static void SelectionSort(int[] _arr, bool _accending = true) {
-			if (_arr == null || _arr.Length < 2) {
-				return;
-			}
-			for (int i = 0; i < _arr.Length; i++) {
-				int targetIndex = i;
-				for (int j = i + 1	; j < _arr.Length; j++) {
-					bool swap = _accending ? (_arr[targetIndex] > _arr[j]) : (_arr[targetIndex] < _arr[j]);
-					if (swap) {
-						targetIndex = j;
-					}
-				}
-				Swap(_arr, i, targetIndex);
-			}
-		}
-
-		/// <summary>
-		/// 冒泡排序
-		/// </summary>
-		/// <param name="_arr"></param>
-		/// <param name="_accending"></param>
-		public static void BubbleSort(int[] _arr, bool _accending = true) {
-			if (_arr == null || _arr.Length < 2) {
-				return;
-			}
-			for (int i = _arr.Length - 1; i >= 0; i--) {
-				for (int j = 0; j < i; j++) {
-					bool swap = _accending ? (_arr[j] > _arr[j + 1]) : (_arr[j] < _arr[j + 1]);
-					if (swap) {
-						Swap(_arr, j, j + 1);
-					}
-				}
-			}
-		}
-
-		/// <summary>
-		/// 插入排序
-		/// </summary>
-		/// <param name="_arr"></param>
-		/// <param name="_accending"></param>
-		public static void InsertSort(int[] _arr, bool _accending = true) {
-			for (int i = 1; i < _arr.Length; i++) {
-				int insertPos = i;
-				for (int j = i - 1; j >= 0; j--) {
-					bool accend = _arr[j] > _arr[j + 1];
-					bool swap = _accending ? accend : !accend;
-					if (swap)
-						Swap(_arr, j, j + 1);
-					else
-						break;
-				}
-			}
 		}
 
 		/// <summary>
