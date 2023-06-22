@@ -106,5 +106,38 @@ namespace ConsoleApp.Sort {
 		public static int FindLeftMostIndexBiggerThanNumInSortedArrayWithBisection(int[] _arr, int _comparison) {
 			return FindLeftMostIndexBiggerThanNumInSortedArrayWithBisection(_arr, _comparison, 0, _arr.Length);
 		}
+
+		private static int FindA_MinimumIndex(int[] _arr, int _left, int _right) {
+			Console.WriteLine("LeftIndex = {0}. RightIndex = {1}", _left, _right);
+			int target = -1;
+			// 判斷條件
+			int middle = (_right + _left) / 2;
+			if (middle == 0) {
+				if (_arr[middle] < _arr[middle + 1])
+					target = middle;
+			} else if (middle == _arr.Length - 1) {
+				if (_arr[middle] < _arr[middle - 1])
+					target = middle;
+			} else if (_arr[middle] < _arr[middle - 1] && _arr[middle] < _arr[middle + 1]) {
+				target = middle;
+			}
+			// 結束條件
+			if (target == -1) {
+				if (_left != _right) {
+					target = FindA_MinimumIndex(_arr, _left, middle);
+					if (target == -1)
+						target = FindA_MinimumIndex(_arr, middle + 1, _right);
+				}
+			}
+			return target;
+		}
+
+		public static int FindA_MinimumIndex(int[] _arr) {
+			if (_arr == null || _arr.Length == 0)
+				return -1;
+			if (_arr.Length == 1)
+				return 0;
+			return FindA_MinimumIndex(_arr, 0, _arr.Length - 1);
+		}
 	}
 }
