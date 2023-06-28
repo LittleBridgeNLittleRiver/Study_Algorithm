@@ -7,6 +7,20 @@ using System.Threading.Tasks;
 namespace ConsoleApp.Utils {
 	public static class CommonUtils {
 		/// <summary>
+		/// 交换位置
+		/// </summary>
+		/// <param name="_arr"></param>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		public static void Swap(int[] _arr, int a, int b) {
+			if (a == b)
+				return;
+			_arr[a] = _arr[a] ^ _arr[b];
+			_arr[b] = _arr[a] ^ _arr[b];
+			_arr[a] = _arr[a] ^ _arr[b];
+		}
+
+		/// <summary>
 		/// 获取数组中最大的值
 		/// </summary>
 		/// <param name="_arr"></param>
@@ -114,6 +128,48 @@ namespace ConsoleApp.Utils {
 			}
 			for (i = 0; i < help.Length; i++) {
 				_arr[_L + i] = help[i];
+			}
+		}
+
+		// 荷兰国旗问题
+
+		/// <summary>
+		/// 以目标值，将数组中【小于等于】和【大于】的部分，由左往右划分
+		/// </summary>
+		/// <param name="_arr"></param>
+		/// <param name="_targetValue"></param>
+		public static void SortingLessGreater(int[] _arr, int _targetValue) {
+			if (_arr == null || _arr.Length < 2) return;
+			int lessIndex = 0;
+			for (int i = 0; i < _arr.Length; i++) {
+				int curValue = _arr[i];
+				if (curValue <= _targetValue) {
+					Swap(_arr, i, lessIndex++);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 以目标值，将数组中【小于】、【等于】和【大于】的部分，由左往右划分
+		/// </summary>
+		/// <param name="_arr"></param>
+		/// <param name="_targetValue"></param>
+		public static void SortingLessEqualGreater(int[] _arr, int _targetValue) {
+			if (_arr == null || _arr.Length < 2) {
+				return;
+			}
+			int lessIndex = -1;
+			int greaterIndex = _arr.Length;
+			int i = 0;
+			while (i < _arr.Length && i < greaterIndex) {
+				int curValue = _arr[i];
+				if (curValue < _targetValue) {
+					Swap(_arr, i++, ++lessIndex);
+				} else if (curValue > _targetValue) {
+					Swap(_arr, i, --greaterIndex);
+				} else {
+					i++;
+				}
 			}
 		}
 	}

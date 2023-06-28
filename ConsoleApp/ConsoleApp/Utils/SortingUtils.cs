@@ -7,20 +7,6 @@ using System.Threading.Tasks;
 namespace ConsoleApp.Utils {
 	public static class SortingUtils {
 		/// <summary>
-		/// 交换位置
-		/// </summary>
-		/// <param name="_arr"></param>
-		/// <param name="a"></param>
-		/// <param name="b"></param>
-		private static void Swap(int[] _arr, int a, int b) {
-			if (a == b)
-				return;
-			_arr[a] = _arr[a] ^ _arr[b];
-			_arr[b] = _arr[a] ^ _arr[b];
-			_arr[a] = _arr[a] ^ _arr[b];
-		}
-
-		/// <summary>
 		/// 选择排序
 		/// </summary>
 		/// <param name="_arr"></param>
@@ -37,7 +23,7 @@ namespace ConsoleApp.Utils {
 						targetIndex = j;
 					}
 				}
-				Swap(_arr, i, targetIndex);
+				CommonUtils.Swap(_arr, i, targetIndex);
 			}
 		}
 
@@ -54,7 +40,7 @@ namespace ConsoleApp.Utils {
 				for (int j = 0; j < i; j++) {
 					bool swap = _accending ? (_arr[j] > _arr[j + 1]) : (_arr[j] < _arr[j + 1]);
 					if (swap) {
-						Swap(_arr, j, j + 1);
+						CommonUtils.Swap(_arr, j, j + 1);
 					}
 				}
 			}
@@ -72,7 +58,7 @@ namespace ConsoleApp.Utils {
 					bool accend = _arr[j] > _arr[j + 1];
 					bool swap = _accending ? accend : !accend;
 					if (swap)
-						Swap(_arr, j, j + 1);
+						CommonUtils.Swap(_arr, j, j + 1);
 					else
 						break;
 				}
@@ -99,7 +85,7 @@ namespace ConsoleApp.Utils {
 			}
 		}
 
-		public static void MergeSort(int[] _arr, int _L, int _R) {
+		private static void MergeSort(int[] _arr, int _L, int _R) {
 			// 中止条件
 			if (_L == _R) {
 				return;
@@ -119,5 +105,70 @@ namespace ConsoleApp.Utils {
 				return;
 			MergeSort(_arr, 0, _arr.Length - 1);
 		}
+
+		/// <summary>
+		/// 快排2.0（荷兰国旗）
+		/// </summary>
+		/// <param name="_arr"></param>
+		public static void QuickSort_2(int[] _arr) {
+			if (_arr == null || _arr.Length < 2) {
+				return;
+			}
+			QuickSort_2(_arr, 0, _arr.Length - 1);
+		}
+
+		private static void QuickSort_2(int[] _arr, int _L, int _R) {
+			if (_L < _R) {
+				(int, int) boundary = QuickSort_Three_Partition(_arr, _L, _R);
+				QuickSort_2(_arr, _L, boundary.Item1);
+				QuickSort_2(_arr, boundary.Item2, _R);
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="_arr"></param>
+		/// <param name="_L"></param>
+		/// <param name="_R"></param>
+		/// <returns>（小于区的右边界Index, 大于区的左边界Index）</returns>
+		private static (int, int) QuickSort_Three_Partition(int[] _arr, int _L, int _R) {
+			// 以最右侧的数为目标书，完成荷兰国旗（小于、等于、大于）问题
+			int targetValue = _arr[_R];
+			int lessIndex = _L - 1;
+			int greaterIndex = _R;
+			while (_L < greaterIndex) {
+				int curValue = _arr[i];
+				if (curValue < targetValue) {
+					CommonUtils.Swap(_arr, _L++, ++lessIndex);
+				} else if (curValue > targetValue) {
+					CommonUtils.Swap(_arr, _L, --greaterIndex);
+				} else {
+					_L++;
+				}
+			}
+			CommonUtils.Swap(_arr, _R, greaterIndex);
+			return (lessIndex, greaterIndex + 1);
+		}
+
+		/// <summary>
+		/// 随即快排（快排3.0）
+		/// </summary>
+		/// <param name="_arr"></param>
+		public static void RandomizedQuickSort(int[] _arr) {
+			if (_arr == null || _arr.Length < 2) {
+				return;
+			}
+			RandomizedQuickSort(_arr, 0, _arr.Length - 1);
+		}
+
+		private static void RandomizedQuickSort(int[] _arr, int _L, int _R) {
+			if (_L == _R) {
+				return;
+			}
+
+		}
+
+		private static void
 	}
 }
