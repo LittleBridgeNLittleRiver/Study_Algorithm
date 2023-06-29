@@ -3,7 +3,7 @@ using ConsoleApp.Sort;
 using ConsoleApp.Structure;
 using ConsoleApp.Utils;
 using System.Collections.Generic;
-
+ 
 Console.WriteLine("Hello, World!");
 
 //int[] arr = new int[] { 4, 2, 13, 5, 1, 0, 10, 8, 7, 7, 7 };
@@ -29,6 +29,10 @@ int[] arr = new int[] { 5,1,2,6,3,1,4,5,7,1,2,1,4 };
 //arr[++a] = 3;
 
 Heap heap = new Heap(arr);
+//heap.Change(5, 8);
+//int[] b = new int[arr.Length];
+//arr.CopyTo(b, 0);
+int[]? a = heap.GetSortingArray();
 
 Console.WriteLine();
 

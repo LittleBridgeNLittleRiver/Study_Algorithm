@@ -30,6 +30,12 @@ namespace ConsoleApp.Structure {
 			}
 		}
 
+		public Heap(Heap heap) {
+			_heap = heap._heap;
+			_heapSize = heap._heapSize;
+			_heapLimit = heap._heapLimit;
+		}
+
 		public int? Pop() {
 			if (IsEmpty()) {
 				Debug.WriteLine("Heap is empty.");
@@ -47,6 +53,22 @@ namespace ConsoleApp.Structure {
 			}
 			_heap[++_heapSize] = value;
 			HeapInsert(_heapSize);
+		}
+
+		public void Change(int index, int value)
+		{
+			index++;
+			if (IsValidIndex(index) == false) { 
+			}
+			// 赋值
+			int lastValue = _heap[index];
+			_heap[index] = value;
+			// 判断数值是变大了，还是变小了
+			if (value > lastValue) {
+				HeapInsert(index);
+			} else if (value < lastValue) {
+				Heapify(index);
+			}
 		}
 
 		private void HeapInsert(int index) {
@@ -78,6 +100,34 @@ namespace ConsoleApp.Structure {
 				index = largest;
 				left = index << 1;
 			}
+		}
+
+		/// <summary>
+		/// 堆排序（返回数组）
+		/// </summary>
+		/// <returns></returns>
+		public int[]? GetSortingArray() {
+			if (_heapSize <= 0) {
+				return null;
+			}
+			// 复制堆
+			int heapSize = _heapSize;
+			Heap clone = Clone();
+			// 遍历堆
+			int[] arr = new int[heapSize];
+			int i = 0;
+			while (clone.IsEmpty() == false) {
+				arr[i++] = clone.Pop().GetValueOrDefault();
+			}
+			return arr;
+		}
+
+		public void HeapSort() {
+
+		}
+
+		public Heap Clone() {
+			return new Heap(this);
 		}
 
 		/// <summary>
