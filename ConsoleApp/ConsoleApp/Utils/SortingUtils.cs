@@ -118,7 +118,7 @@ namespace ConsoleApp.Utils {
 		}
 
 		private static void QuickSort_2(int[] _arr, int _L, int _R) {
-			if (_L < _R) {
+			if (_L <= _R) {
 				(int, int) boundary = QuickSort_Three_Partition(_arr, _L, _R);
 				QuickSort_2(_arr, _L, boundary.Item1);
 				QuickSort_2(_arr, boundary.Item2, _R);
@@ -138,7 +138,7 @@ namespace ConsoleApp.Utils {
 			int lessIndex = _L - 1;
 			int greaterIndex = _R;
 			while (_L < greaterIndex) {
-				int curValue = _arr[i];
+				int curValue = _arr[_L];
 				if (curValue < targetValue) {
 					CommonUtils.Swap(_arr, _L++, ++lessIndex);
 				} else if (curValue > targetValue) {
@@ -159,16 +159,17 @@ namespace ConsoleApp.Utils {
 			if (_arr == null || _arr.Length < 2) {
 				return;
 			}
-			RandomizedQuickSort(_arr, 0, _arr.Length - 1);
+			var random = new Random();
+			RandomizedQuickSort(random, _arr, 0, _arr.Length - 1);
 		}
 
-		private static void RandomizedQuickSort(int[] _arr, int _L, int _R) {
-			if (_L == _R) {
-				return;
+		private static void RandomizedQuickSort(Random random, int[] _arr, int _L, int _R) {
+			if (_L <= _R) {
+				CommonUtils.Swap(_arr, random.Next(_L, _R), _R);
+				(int, int) boundary = QuickSort_Three_Partition(_arr, _L, _R);
+				QuickSort_2(_arr, _L, boundary.Item1);
+				QuickSort_2(_arr, boundary.Item2, _R);
 			}
-
 		}
-
-		private static void
 	}
 }

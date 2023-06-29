@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ConsoleApp.Sort;
+using ConsoleApp.Structure;
 using ConsoleApp.Utils;
 using System.Collections.Generic;
 
@@ -22,8 +23,13 @@ int[] arr = new int[] { 5,1,2,6,3,1,4,5,7,1,2,1,4 };
 //int smallSum = CommonUtils.SmallSum(arr);
 //CommonUtils.PrintReversePair(arr);
 //CommonUtils.SortingLessEqualGreater(arr, 4);
-SortingUtils.QuickSort_2(arr);
+//SortingUtils.QuickSort_2(arr);
+//SortingUtils.RandomizedQuickSort(arr);
+//int a = 1;
+//arr[++a] = 3;
+
+Heap heap = new Heap(arr);
 
 Console.WriteLine();
 
-//Console.WriteLine(arr.ToString());
+//Console.WriteLine(arr.ToString());	
